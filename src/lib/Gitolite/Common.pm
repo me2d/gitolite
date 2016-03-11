@@ -19,6 +19,8 @@ package Gitolite::Common;
 
           ssh_fingerprint_file
           ssh_fingerprint_line
+
+          _warn_ffc
 );
 #>>>
 use Exporter 'import';
@@ -89,6 +91,15 @@ sub dd {
     sub t_lap {
         my $name = shift || 'default';
         return Time::HiRes::tv_interval( $start_times{$name} );
+    }
+}
+
+sub _warn_ffc {
+    gl_log( 'warn', @_ );
+    if ( $ENV{D} and $ENV{D} >= 3 ) {
+        cluck "WARNING: ", @_, "\n";
+    } elsif ( defined( $ENV{D} ) ) {
+        carp "WARNING: ", @_, "\n";
     }
 }
 

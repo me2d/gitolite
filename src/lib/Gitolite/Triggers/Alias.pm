@@ -118,7 +118,12 @@ sub input {
         my $wm = $rc{REPO_ALIASES}{WARNING} || "'%old' is an alias for '%new'";
         $wm =~ s/%new/$target/g;
         $wm =~ s/%old/$norm/g;
-        _warn $wm;
+
+	if ( $rc{REPO_ALIASES}{DISABLE_WARNING} ) {
+		_warn_ffc $wm;
+	} else {
+		_warn $wm;
+	}
 
         $ENV{SSH_ORIGINAL_COMMAND} =~ s/'\/?$repo'/'$target'/;
     }
